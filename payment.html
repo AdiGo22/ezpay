@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Razorpay Payment Gateway</title>
+  <!-- Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- Custom styles -->
+  <style>
+    body {
+      background-color: #02042a;
+    }
+  </style>
+</head>
+
+<body class="flex items-center justify-center h-screen">
+  <div class="bg-white p-8 rounded-lg shadow-lg w-full sm:max-w-md">
+    <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">Razorpay Payment Gateway</h1>
+
+    <!-- Payment Form -->
+    <form id="paymentForm" class="flex flex-col items-center space-y-4">
+      <label for="amount" class="sr-only">Amount (in INR)</label>
+      <input type="number" id="amount" name="amount" placeholder="Enter amount in INR"
+        class="px-4 py-2 w-full sm:max-w-xs border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+        required>
+
+      <button type="button"
+        class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        id="payButton">
+        Pay with Razorpay
+      </button>
+    </form>
+
+    <!-- Error Message -->
+    <p id="errorMessage" class="text-red-500 text-sm mt-2 hidden">Oops! Something went wrong. Please try again.</p>
+  </div>
+
+  <!-- Razorpay Checkout Script -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+    const payButton = document.getElementById('payButton');
+    const amountInput = document.getElementById('amount');
+    const errorMessage = document.getElementById('errorMessage');
+
+    payButton.addEventListener('click', async function () {
+      const amountValue = amountInput.value.trim();
+      if (!amountValue || isNaN(amountValue) || amountValue <= 0) {
+        alert('Please enter a valid amount.');
+        return;
+      }
+
+      const options = {
+        key: 'YOUR_RAZORPAY_KEY_ID', // Replace with your Razorpay Key ID
+        amount: amountValue * 100, // Amount in paisa (e.g., ₹1000 will be 100000 paisa)
+        currency: 'INR',
+        name: 'Your Company Name',
+        description: 'Payment for Products/Services',
+        image: 'https://example.com/logo.png', // URL of your company logo
+        handler: function (response) {
+          alert('Payment successful! Payment ID: ' + response.razorpay_payment_id);
+          // Handle payment success
+        },
+        prefill: {
+          name: 'Customer Name',
+          email: 'customer@example.com'
+        },
+        notes: {
+          address: 'Customer Address'
+        },
+        theme: {
+          color: '#1a73e8' // Razorpay checkout button theme color
+        },
+        modal: {
+          ondismiss: function () {
+            errorMessage.classList.remove('hidden');
+          }
+        }
+      };
+
+      const razorpay = new Razorpay(options);
+      razorpay.open();
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Generator</title>
+  <!-- Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- Custom styles -->
+  <style>
+    body {
+      background-color: #02042a;
+    }
+
+    .qr-code {
+      width: 200px;
+      height: 200px;
+    }
+  </style>
+</head>
+
+<body class="flex items-center justify-center h-screen">
+  <div class="bg-white p-8 rounded-lg shadow-lg w-full sm:max-w-md">
+    <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">QR Code Generator</h1>
+
+    <!-- QR Code Display -->
+    <div id="qrcode" class="flex items-center justify-center mb-6"></div>
+
+    <!-- Input Form -->
+    <form id="qrForm" class="flex flex-col items-center space-y-4">
+      <label for="qrContent" class="sr-only">Content for QR Code</label>
+      <input type="text" id="qrContent" name="qrContent" placeholder="Enter text or URL"
+        class="px-4 py-2 w-full sm:max-w-xs border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+        required>
+
+      <button type="submit"
+        class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        Generate QR Code
+      </button>
+    </form>
+  </div>
+
+  <!-- QR Code Generator Script -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode-generator/qrcode.min.js"></script>
+  <script>
+    const qrForm = document.getElementById('qrForm');
+    const qrContent = document.getElementById('qrContent');
+    const qrCodeContainer = document.getElementById('qrcode');
+
+    qrForm.addEventListener('submit', function (event) {
+      event.preventDefault();
+      const inputValue = qrContent.value.trim();
+      if (!inputValue) return;
+
+      // Clear previous QR code if exists
+      qrCodeContainer.innerHTML = '';
+
+      // Generate QR code
+      const typeNumber = 4; // QR code type
+      const errorCorrectionLevel = 'L'; // Error correction level
+      const qr = qrcode(typeNumber, errorCorrectionLevel);
+      qr.addData(inputValue);
+      qr.make();
+
+      // Display QR code image
+      const qrImage = qr.createImgTag(6); // Scale factor
+      qrCodeContainer.innerHTML = qrImage;
+    });
+  </script>
+</body>
+
+</html>

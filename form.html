@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - Fintech Company</title>
+  <!-- Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- Custom styles -->
+  <style>
+    body {
+      background-color: #f8f8f8;
+      font-family: 'Arial', sans-serif;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 40px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .form-input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: #5a67d8;
+    }
+    .form-submit {
+      background-color: #5a67d8;
+      color: #ffffff;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .form-submit:hover {
+      background-color: #434190;
+    }
+    .submit-message {
+      font-size: 18px;
+      font-weight: bold;
+      color: #4caf50; /* Green color for success message */
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center h-screen">
+  <div class="container">
+    <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">Contact Us</h1>
+
+    <form id="contactForm" class="space-y-4">
+      <input type="text" id="name" name="name" class="form-input" placeholder="Your Name" required>
+      <input type="email" id="email" name="email" class="form-input" placeholder="Your Email" required>
+      <input type="tel" id="phone" name="phone" class="form-input" placeholder="Your Phone Number" required>
+      <textarea id="message" name="message" class="form-input" rows="4" placeholder="Your Message" required></textarea>
+      <button type="submit" class="form-submit w-full">Submit</button>
+    </form>
+
+    <div id="submitMessage" class="submit-message hidden">Form submitted successfully!</div>
+  </div>
+
+  <!-- Optional: JavaScript for form submission handling -->
+  <script>
+    const form = document.getElementById('contactForm');
+    const submitMessage = document.getElementById('submitMessage');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+      // Simulate form submission delay (for demo purposes)
+      setTimeout(function() {
+        // Display submit message
+        submitMessage.classList.remove('hidden');
+        // Reset form fields
+        form.reset();
+        // Hide submit message after 3 seconds
+        setTimeout(function() {
+          submitMessage.classList.add('hidden');
+        }, 3000);
+      }, 1000); // Adjust the delay as needed or remove for actual form submission
+    });
+  </script>
+</body>
+</html>
